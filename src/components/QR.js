@@ -14,7 +14,7 @@ export default function QR() {
         const user_id = localStorage.getItem('userid');
         const s_room = user_id;
 
-        const ENDPOINT = `https://0e0b-1-23-209-169.in.ngrok.io/qr/${s_room}/`;
+        const ENDPOINT = `wss://0e0b-1-23-209-169.in.ngrok.io/qr/${s_room}/`;
         var socket = new WebSocket(ENDPOINT);
 
         socket.onopen = () => {
