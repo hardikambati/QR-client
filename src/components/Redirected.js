@@ -1,13 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
-export default function Pathway() {
+export default function Redirected() {
     
     const navigate = useNavigate();
     
     return (
         <div className='container'>
-            Pathway
-
+            <div id="help-text">Redirected Successfully!</div>
             <div className="btn-container-qr">
                 <button onClick={e => navigate('/')} className="btn">Home</button>
             </div>

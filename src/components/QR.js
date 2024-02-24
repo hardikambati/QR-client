@@ -1,20 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
+import QRCode from 'react-qr-code';
+
 
 export default function QR() {
     
     const navigate = useNavigate();
+    const [value, setValue] = React.useState('');
     
     React.useEffect(() => {
-        if(!localStorage.getItem('userid')) {
-            console.log('User ID not available in localstorage');
-            return;
-        }
-
-        const user_id = localStorage.getItem('userid');
-        const s_room = user_id;
-
-        const ENDPOINT = `wss://21b1-136-232-46-202.in.ngrok.io/qr/${s_room}/`;
+        const ENDPOINT = `ws://localhost:8001/ws/redirect/`;
         var socket = new WebSocket(ENDPOINT);
 
         socket.onopen = () => {
@@ -23,10 +18,19 @@ export default function QR() {
 
         socket.onmessage = e => {
             const data = JSON.parse(e.data);
-            if(data.status === "REDIRECT") {
-                navigate('/pathway');
+
+            if (data.message !== undefined) {
+                const message = data.message;
+                console.log(data);
+                setValue(message);
             }
-            console.log(data.status);   
+            
+            if (data.status !== undefined) {
+                console.log(data);
+                if (data.status === "redirect") {
+                    navigate('/completed');
+                }
+            }
         }
     
         socket.onclose = () => {
@@ -42,15 +46,21 @@ export default function QR() {
     
     return (
         <div className='container'>
-            QR
+            <div id="help-text">Scan QR to auto redirect</div>
 
-            <div className='img'>
-                <img src="/car-qr.png" width={400} alt="qr" />
-            </div>         
+            {value === '' ?
+                <div></div>
+                :
+                <div className='img'>
+                    <QRCode
+                        value={value}
+                        bgColor="white"
+                        fgcolor="black"
+                        size={400}
+                        />
+                </div>
+            }
 
-            <div className="btn-container-qr">
-                <button onClick={e => navigate('/pathway')} className="btn">Pathway</button>
-            </div>
         </div>
     );
 }

@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import Home  from './Home';
 import QR from './QR';
-import  Pathway from './Pathway';
+import Redirected from './Redirected';
 
 export default function RoutePath() {
     return (
@@ -9,7 +9,7 @@ export default function RoutePath() {
             <Routes>
                 <Route path="/" exact strict element={<Home />} />
                 <Route path="/qr" exact strict element={<QR />} />
-                <Route path="/pathway" exact strict element={<Pathway />} />
+                <Route path="/completed" exact strict element={<Redirected />} />
             </Routes>
         </div>
     );
